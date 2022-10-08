@@ -1,21 +1,3 @@
-#!/usr/bin/python3
-# Copyright 2010 Google Inc.
-# Licensed under the Apache License, Version 2.0
-# http://www.apache.org/licenses/LICENSE-2.0
-
-# Google's Python Class
-# http://code.google.com/edu/languages/google-python-class/
-
-# Basic string exercises
-# Fill in the code for the functions below. main() is already set up
-# to call the functions with a few different inputs,
-# printing 'OK' when each function is correct.
-# The starter code for each function includes a 'return'
-# which is just a placeholder for your code.
-# It's ok if you do not complete all the functions, and there
-# are some additional functions to try in string2.py.
-
-
 # A. donuts
 # Given an int count of a number of donuts, return a string
 # of the form 'Number of donuts: <count>', where <count> is the number
@@ -25,7 +7,6 @@
 # and donuts(23) returns 'Number of donuts: many'
 def donuts(count):
     return 'Number of donuts: ' + str(count) if count < 10 else 'Number of donuts: many'
-
 
 
 # B. both_ends
@@ -39,7 +20,7 @@ def both_ends(s):
 
 # C. fix_start
 # Given a string s, return a string
-# where all occurences of its first char have
+# where all occurrences of its first char have
 # been changed to '*', except do not change
 # the first char itself.
 # e.g. 'babble' yields 'ba**le'
@@ -50,8 +31,6 @@ def fix_start(s):
     return s[0] + s.replace(s[0], "*")[1:]
 
 
-
-
 # D. MixUp
 # Given strings a and b, return a single string with a and b separated
 # by a space '<a> <b>', except swap the first 2 chars of each string.
@@ -60,7 +39,7 @@ def fix_start(s):
 #   'dog', 'dinner' -> 'dig donner'
 # Assume a and b are length 2 or more.
 def mix_up(a, b):
-    pass
+    return b[:2] + a[2:] + ' ' + a[:2] + b[2:]
 
 
 # Additional basic string exercises
@@ -73,7 +52,7 @@ def mix_up(a, b):
 # If the string length is less than 3, leave it unchanged.
 # Return the resulting string.
 def verbing(s):
-    pass
+    return s if len(s) < 3 else s + 'ly' if s[-3:] == 'ing' else s + 'ing'
 
 
 # F. not_bad
@@ -85,7 +64,10 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-    pass
+    if s.find('not') < s.find('bad', s.find('not')):
+        return s[:s.find('not')] + 'good' + s[s.find('bad', s.find('not')) + 3:]
+    else:
+        return s
 
 
 # G. front_back
@@ -96,12 +78,21 @@ def not_bad(s):
 # Given 2 strings, a and b, return a string of the form
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
-    pass
+    if len(a) % 2 == 0:
+        a_front = a[:len(a) // 2]
+        a_back = a[len(a) // 2:]
+    else:
+        a_front = a[:len(a) // 2 + 1]
+        a_back = a[len(a) // 2 + 1:]
+    if len(b) % 2 == 0:
+        b_front = b[:len(b) // 2]
+        b_back = b[len(b) // 2:]
+    else:
+        b_front = b[:len(b) // 2 + 1]
+        b_back = b[len(b) // 2 + 1:]
+    return a_front + b_front + a_back + b_back
 
 
-
-# Provided simple test() function used in main() to print
-# what each function returns vs. what it's supposed to return.
 def test(got, expected):
     if got == expected:
         prefix = ' OK '
@@ -166,4 +157,3 @@ def main():
 # Standard boilerplate to call the main() function.
 if __name__ == '__main__':
     main()
-
