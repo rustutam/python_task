@@ -13,7 +13,7 @@ def long_division(dividend, divider):
     line_counter = 1
     last_step_place = 0
     if number < divider:
-        lines += str(number) + '|' + str(number // divider) + '\n'
+        lines += str(number) + '|' + str(number // divider)
     else:
         for current_number in dividend:
             step_counter += 1
@@ -79,7 +79,8 @@ def main():
     print(long_division(123456789, 531))
     print()
     print(long_division(425934261694251, 12345678))
-
+    a=[]
+    a.
 
 if __name__ == '__main__':
     main()
