@@ -1,3 +1,6 @@
+from collections import Counter
+
+
 def make_stat(filename):
     with open(filename, encoding='cp1251') as response:
         html_page = response.read()
@@ -43,7 +46,6 @@ def extract_years(stat):
 
 
 def extract_general(stat):
-    from collections import Counter
     names = []
     for i in stat.keys():
         for j in stat[i]:
@@ -55,7 +57,6 @@ def extract_general(stat):
 
 
 def extract_general_male(stat):
-    from collections import Counter
     names = []
     for i in stat.keys():
         names_array = stat[i]['male']
@@ -66,7 +67,6 @@ def extract_general_male(stat):
 
 
 def extract_general_female(stat):
-    from collections import Counter
     names = []
     for i in stat.keys():
         names_array = stat[i]['female']
@@ -77,7 +77,6 @@ def extract_general_female(stat):
 
 
 def extract_year(stat, year):
-    from collections import Counter
     names = []
     for j in stat[year]:
         names_array = stat[year][j]
@@ -88,7 +87,6 @@ def extract_year(stat, year):
 
 
 def extract_year_male(stat, year):
-    from collections import Counter
     names = []
     names_array = stat[year]['male']
     for name in names_array:
@@ -98,7 +96,6 @@ def extract_year_male(stat, year):
 
 
 def extract_year_female(stat, year):
-    from collections import Counter
     names = []
     names_array = stat[year]['female']
     for name in names_array:
