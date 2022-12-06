@@ -79,8 +79,6 @@ def main():
     print(long_division(123456789, 531))
     print()
     print(long_division(425934261694251, 12345678))
-    a=[]
-    a.
 
 if __name__ == '__main__':
     main()
