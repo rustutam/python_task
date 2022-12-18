@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 # Form implementation generated from reading ui file 'untitled.ui'
 #
@@ -9,18 +10,22 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtCore import QTimer, Qt, QUrl
 import sys
+from time import gmtime
+
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
+from PyQt5.QtWidgets import QWidget, QLCDNumber
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QWidget):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 400)
         MainWindow.setMinimumSize(QtCore.QSize(600, 400))
         MainWindow.setMaximumSize(QtCore.QSize(600, 400))
         MainWindow.setStyleSheet("background-color: rgb(67, 40, 24);")
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton_start = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_start.setGeometry(QtCore.QRect(90, 260, 130, 60))
@@ -242,10 +247,14 @@ class Ui_MainWindow(object):
 
         self.functions()
 
-        # self.timer = QTimer(self)
-        # self.timer.timeout.connect(self.showTime)
-        # self.timer.setInterval(1000)  # 1 sec
-        # self.time = 0
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.showTime)
+        self.timer.setInterval(1000)  # 1 sec
+        self.time = 0
+
+        self.music = self.comboBox_music.itemText(0)
+
+        self.player = QMediaPlayer()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -266,35 +275,55 @@ class Ui_MainWindow(object):
         self.pushButton_start.clicked.connect(self.push_start)
         self.pushButton_stop.clicked.connect(self.push_stop)
         self.pushButton_reset.clicked.connect(self.push_reset)
-        # self.pushButton_stop.clicked.connect(lambda: self.write_number(self.pushButton_stop.text()))
-        # self.pushButton_reset.clicked.connect(lambda: self.write_number(self.pushButton_reset.text()))
         self.comboBox_music.currentTextChanged.connect(self.set_music)
 
-    # def showTime(self):
-    #     self.lcd.display(self.time)
-    #     self.time -= 1  # !!!
-    #     if self.time < 0:
-    #         self.timer.stop()
-    #         self.time = 0
+    def showTime(self):
+        self.time -= 1
+        hours = gmtime(self.time).tm_hour
+        minutes = gmtime(self.time).tm_min
+        seconds = gmtime(self.time).tm_sec
+        self.spinBox_hours.setValue(hours)
+        self.spinBox_minutes.setValue(minutes)
+        self.spinBox_seconds.setValue(seconds)
+        if self.time == 0:
+            self.play_music()
+            self.timer.stop()
 
     def push_start(self):
-        hours = self.spinBox_hours.text()
-        minutes = self.spinBox_minutes.text()
-        seconds = self.spinBox_seconds.text()
-        # self.timer.start()
-        pass
+        hours = self.spinBox_hours.value()
+        minutes = self.spinBox_minutes.value()
+        seconds = self.spinBox_seconds.value()
+        self.time = hours * 3600 + minutes * 60 + seconds
+        self.timer.start()
 
     def push_stop(self):
-        # останавливаем время
-        pass
+        self.timer.stop()
 
     def push_reset(self):
+        self.timer.stop()
+        self.time = 0
         self.spinBox_hours.setValue(0)
         self.spinBox_minutes.setValue(0)
         self.spinBox_seconds.setValue(0)
 
     def set_music(self):
-        print(self.comboBox_music.currentText())
+        self.music = self.comboBox_music.currentText()
+
+    def play_music(self):
+        full_file_path = os.path.join(os.getcwd(), '1.mp3')
+        url = QUrl.fromLocalFile(full_file_path)
+        content = QMediaContent(url)
+        self.player.setMedia(content)
+        self.player.setVolume(30)
+        self.player.play()
+        # if self.music == "1":
+        #     print(1)
+        # if self.music == "2":
+        #     print(2)
+        # if self.music == "3":
+        #     print(3)
+        # if self.music == "4":
+        #     print(4)
 
 
 if __name__ == "__main__":
